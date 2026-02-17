@@ -1,71 +1,27 @@
-const sendBtn = document.getElementById("sendBtn");
-const input = document.getElementById("messageInput");
-const chatBody = document.getElementById("chatBody");
+function addField() {
+    const labelText = document.getElementById("fieldLabel").value;
+    const fieldType = document.getElementById("fieldType").value;
+    const container = document.getElementById("dynamicFields");
 
-sendBtn.addEventListener("click", sendMessage);
-
-input.addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
-        sendMessage();
-    }
-});
-
-function sendMessage(){
-
-    const message = input.value.trim();
-    if(message === "") return;
-
-    addMessage(message, "user");
-    input.value = "";
-
-    setTimeout(() => {
-        const reply = generateReply(message);
-        addMessage(reply, "bot");
-    }, 600);
-}
-
-function addMessage(text, sender){
-
-    const msg = document.createElement("div");
-    msg.classList.add("message", sender);
-    msg.textContent = text;
-
-    chatBody.appendChild(msg);
-
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-function generateReply(userMessage){
-
-    const msg = userMessage.toLowerCase();
-
-    if(msg.includes("hello") || msg.includes("hi")){
-        return "Hello 😊 How can I help you?";
+    if (labelText.trim() === "") {
+        alert("Enter field label");
+        return;
     }
 
-    if(msg.includes("how are you")){
-        return "I'm doing great! Thanks for asking 👍";
-    }
+    const div = document.createElement("div");
+    div.className = "form-group";
 
-    if(msg.includes("your name")){
-        return "I'm Smart Chat Bot 🤖";
-    }
+    const label = document.createElement("label");
+    label.innerText = labelText;
 
-    if(msg.includes("html")){
-        return "HTML is used to structure web pages.";
-    }
+    const input = document.createElement("input");
+    input.type = fieldType;
+    input.placeholder = "Enter " + labelText;
 
-    if(msg.includes("css")){
-        return "CSS is used to style web pages.";
-    }
+    div.appendChild(label);
+    div.appendChild(input);
 
-    if(msg.includes("javascript")){
-        return "JavaScript makes web pages interactive.";
-    }
+    container.appendChild(div);
 
-    if(msg.includes("bye")){
-        return "Goodbye 👋 Have a nice day!";
-    }
-
-    return "Sorry, I don't understand that yet.";
+    document.getElementById("fieldLabel").value = "";
 }
